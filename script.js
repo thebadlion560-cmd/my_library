@@ -4,6 +4,7 @@
 // Initialize data from localStorage or use empty arrays
 let books = JSON.parse(localStorage.getItem('books')) || [];
 let issuedBooks = JSON.parse(localStorage.getItem('issuedBooks')) || [];
+let activityLog = JSON.parse(localStorage.getItem('activityLog')) || [];
 
 // Tab switching functionality
 const tabBtns = document.querySelectorAll('.tab-btn');
@@ -26,6 +27,8 @@ tabBtns.forEach(btn => {
             displayBooks();
         } else if (tabId === 'issue-book') {
             displayIssuedBooks();
+        } else if (tabId === 'dashboard') {
+            updateDashboard();
         }
     });
 });
@@ -45,6 +48,47 @@ function showToast(message, type = 'info') {
 function saveData() {
     localStorage.setItem('books', JSON.stringify(books));
     localStorage.setItem('issuedBooks', JSON.stringify(issuedBooks));
+    localStorage.setItem('activityLog', JSON.stringify(activityLog));
+}
+
+// Add activity to log
+function addActivity(message) {
+    const activity = {
+        message: message,
+        timestamp: new Date().toLocaleString()
+    };
+    activityLog.unshift(activity);
+    // Keep only last 10 activities
+    if (activityLog.length > 10) {
+        activityLog = activityLog.slice(0, 10);
+    }
+    saveData();
+}
+
+// Update dashboard statistics
+function updateDashboard() {
+    const totalBooks = books.length;
+    const availableBooks = books.reduce((sum, book) => sum + book.available, 0);
+    const issuedBooksCount = issuedBooks.length;
+    const categories = [...new Set(books.map(book => book.category))].length;
+    
+    document.getElementById('totalBooks').textContent = totalBooks;
+    document.getElementById('availableBooks').textContent = availableBooks;
+    document.getElementById('issuedBooksCount').textContent = issuedBooksCount;
+    document.getElementById('totalCategories').textContent = categories;
+    
+    // Display activity log
+    const activityLogContainer = document.getElementById('activityLog');
+    if (activityLog.length === 0) {
+        activityLogContainer.innerHTML = '<p class="no-data">No recent activity</p>';
+    } else {
+        activityLogContainer.innerHTML = activityLog.map(activity => `
+            <div class="activity-item">
+                <p><strong>${activity.message}</strong></p>
+                <small>${activity.timestamp}</small>
+            </div>
+        `).join('');
+    }
 }
 
 // Add Book Form Handler
@@ -74,6 +118,7 @@ document.getElementById('addBookForm').addEventListener('submit', (e) => {
     };
     
     books.push(newBook);
+    addActivity(`Added book: ${bookTitle} by ${bookAuthor}`);
     saveData();
     
     // Clear form
@@ -116,7 +161,9 @@ function displayBooks() {
 // Delete book
 function deleteBook(bookId) {
     if (confirm('Are you sure you want to delete this book?')) {
+        const book = books.find(b => b.id === bookId);
         books = books.filter(book => book.id !== bookId);
+        addActivity(`Deleted book: ${book.title}`);
         saveData();
         displayBooks();
         showToast('Book deleted successfully!', 'success');
@@ -209,6 +256,7 @@ document.getElementById('issueBookForm').addEventListener('submit', (e) => {
     
     issuedBooks.push(issuedBook);
     book.available--;
+    addActivity(`Issued book "${book.title}" to ${studentName} (${studentRoll})`);
     saveData();
     
     // Clear form
@@ -238,7 +286,9 @@ document.getElementById('returnBookForm').addEventListener('submit', (e) => {
     }
     
     // Remove from issued books
+    const returnedBook = issuedBooks[issuedIndex];
     issuedBooks.splice(issuedIndex, 1);
+    addActivity(`Returned book "${returnedBook.bookTitle}"`);
     saveData();
     
     // Clear form
@@ -277,6 +327,7 @@ function displayIssuedBooks() {
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
+    updateDashboard();
     displayBooks();
     displayIssuedBooks();
 });

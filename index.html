@@ -14,11 +14,53 @@
         </header>
 
         <nav class="tabs">
-            <button class="tab-btn active" data-tab="add-book">Add Book</button>
-            <button class="tab-btn" data-tab="view-books">View Books</button>
-            <button class="tab-btn" data-tab="search-book">Search Book</button>
-            <button class="tab-btn" data-tab="issue-book">Issue/Return</button>
+            <button class="tab-btn active" data-tab="dashboard">📊 Dashboard</button>
+            <button class="tab-btn" data-tab="add-book">📖 Add Book</button>
+            <button class="tab-btn" data-tab="view-books">📚 View Books</button>
+            <button class="tab-btn" data-tab="search-book">🔍 Search Book</button>
+            <button class="tab-btn" data-tab="issue-book">📝 Issue/Return</button>
         </nav>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="tab-content active">
+            <h2>Dashboard</h2>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon">📚</div>
+                    <div class="stat-info">
+                        <h3>Total Books</h3>
+                        <p id="totalBooks">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-info">
+                        <h3>Available</h3>
+                        <p id="availableBooks">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📤</div>
+                    <div class="stat-info">
+                        <h3>Issued</h3>
+                        <p id="issuedBooksCount">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📖</div>
+                    <div class="stat-info">
+                        <h3>Categories</h3>
+                        <p id="totalCategories">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="recent-activity">
+                <h3>Recent Activity</h3>
+                <div id="activityLog">
+                    <p class="no-data">No recent activity</p>
+                </div>
+            </div>
+        </section>
 
         <!-- Add Book Section -->
         <section id="add-book" class="tab-content active">
