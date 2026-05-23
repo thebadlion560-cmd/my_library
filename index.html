@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System - BCA Project</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Library Management System</h1>
+            <p class="subtitle">BCA Project</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" data-tab="add-book">Add Book</button>
+            <button class="tab-btn" data-tab="view-books">View Books</button>
+            <button class="tab-btn" data-tab="search-book">Search Book</button>
+            <button class="tab-btn" data-tab="issue-book">Issue/Return</button>
+        </nav>
+
+        <!-- Add Book Section -->
+        <section id="add-book" class="tab-content active">
+            <h2>Add New Book</h2>
+            <form id="addBookForm">
+                <div class="form-group">
+                    <label for="bookId">Book ID:</label>
+                    <input type="text" id="bookId" required placeholder="Enter unique book ID">
+                </div>
+                <div class="form-group">
+                    <label for="bookTitle">Book Title:</label>
+                    <input type="text" id="bookTitle" required placeholder="Enter book title">
+                </div>
+                <div class="form-group">
+                    <label for="bookAuthor">Author:</label>
+                    <input type="text" id="bookAuthor" required placeholder="Enter author name">
+                </div>
+                <div class="form-group">
+                    <label for="bookCategory">Category:</label>
+                    <select id="bookCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Literature">Literature</option>
+                        <option value="History">History</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bookQuantity">Quantity:</label>
+                    <input type="number" id="bookQuantity" required min="1" placeholder="Enter quantity">
+                </div>
+                <button type="submit" class="btn btn-primary">Add Book</button>
+            </form>
+        </section>
+
+        <!-- View Books Section -->
+        <section id="view-books" class="tab-content">
+            <h2>All Books</h2>
+            <div class="table-container">
+                <table id="booksTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Category</th>
+                            <th>Available</th>
+                            <th>Total</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="booksTableBody">
+                        <!-- Books will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+            <p id="noBooksMessage" class="no-data">No books available. Add some books!</p>
+        </section>
+
+        <!-- Search Book Section -->
+        <section id="search-book" class="tab-content">
+            <h2>Search Book</h2>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search by title, author, or ID...">
+                <button id="searchBtn" class="btn btn-primary">Search</button>
+            </div>
+            <div class="table-container">
+                <table id="searchTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Category</th>
+                            <th>Available</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="searchTableBody">
+                        <!-- Search results will appear here -->
+                    </tbody>
+                </table>
+            </div>
+            <p id="noSearchResults" class="no-data">No results found.</p>
+        </section>
+
+        <!-- Issue/Return Book Section -->
+        <section id="issue-book" class="tab-content">
+            <h2>Issue/Return Book</h2>
+            <div class="issue-return-container">
+                <div class="issue-form">
+                    <h3>Issue Book</h3>
+                    <form id="issueBookForm">
+                        <div class="form-group">
+                            <label for="issueBookId">Book ID:</label>
+                            <input type="text" id="issueBookId" required placeholder="Enter book ID">
+                        </div>
+                        <div class="form-group">
+                            <label for="studentName">Student Name:</label>
+                            <input type="text" id="studentName" required placeholder="Enter student name">
+                        </div>
+                        <div class="form-group">
+                            <label for="studentRoll">Roll Number:</label>
+                            <input type="text" id="studentRoll" required placeholder="Enter roll number">
+                        </div>
+                        <button type="submit" class="btn btn-success">Issue Book</button>
+                    </form>
+                </div>
+                <div class="return-form">
+                    <h3>Return Book</h3>
+                    <form id="returnBookForm">
+                        <div class="form-group">
+                            <label for="returnBookId">Book ID:</label>
+                            <input type="text" id="returnBookId" required placeholder="Enter book ID">
+                        </div>
+                        <button type="submit" class="btn btn-warning">Return Book</button>
+                    </form>
+                </div>
+            </div>
+            <h3>Issued Books</h3>
+            <div class="table-container">
+                <table id="issuedBooksTable">
+                    <thead>
+                        <tr>
+                            <th>Book ID</th>
+                            <th>Book Title</th>
+                            <th>Student Name</th>
+                            <th>Roll Number</th>
+                            <th>Issue Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="issuedBooksTableBody">
+                        <!-- Issued books will appear here -->
+                    </tbody>
+                </table>
+            </div>
+            <p id="noIssuedBooks" class="no-data">No books currently issued.</p>
+        </section>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
